@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nguyenvosongtoan.r2sshop.dto.AddressDTO;
 import com.nguyenvosongtoan.r2sshop.entity.Address;
 import com.nguyenvosongtoan.r2sshop.entity.User;
+import com.nguyenvosongtoan.r2sshop.exception.AddressNotFoundException;
+import com.nguyenvosongtoan.r2sshop.exception.UserNotFoundException;
 import com.nguyenvosongtoan.r2sshop.mapper.AddressMapper;
 import com.nguyenvosongtoan.r2sshop.mapper.UserMapper;
 import com.nguyenvosongtoan.r2sshop.repository.AddressRepository;
@@ -42,8 +44,8 @@ public class AddressServiceImpl implements AddressService {
      */
     @Transactional(readOnly = true)
     @Override
-    public Address findById(long id) throws Exception {
-        return addressRepository.findById(id).orElseThrow(() -> new Exception("Địa chỉ không tồn tại!"));
+    public Address findById(long id) throws AddressNotFoundException {
+        return addressRepository.findById(id).orElseThrow(() -> new AddressNotFoundException("Địa chỉ không tồn tại!"));
     }
 
     /**
@@ -54,7 +56,7 @@ public class AddressServiceImpl implements AddressService {
      */
     @Transactional(readOnly = true)
     @Override
-    public List<AddressDTO> getAllAddressFromCurrentUser() throws Exception {
+    public List<AddressDTO> getAllAddressFromCurrentUser() throws AddressNotFoundException {
         return userService.getCurrentUser().getAddressDTOS();
     }
 
@@ -67,7 +69,7 @@ public class AddressServiceImpl implements AddressService {
      */
     @Transactional
     @Override
-    public List<AddressDTO> create(List<AddressDTO> addressDTOList) throws Exception {
+    public List<AddressDTO> create(List<AddressDTO> addressDTOList) throws UserNotFoundException {
         User user = userMapper.toEntity(userService.getCurrentUser());
         List<AddressDTO> addressDTOS = new ArrayList<>();
         for (AddressDTO addressDTO : addressDTOList) {
@@ -88,14 +90,14 @@ public class AddressServiceImpl implements AddressService {
      */
     @Transactional
     @Override
-    public List<AddressDTO> update(List<AddressDTO> addressDTOList) throws Exception {
+    public List<AddressDTO> update(List<AddressDTO> addressDTOList) throws AddressNotFoundException {
         User user = userMapper.toEntity(userService.getCurrentUser());
         List<Address> addressList = new ArrayList<>();
         for (AddressDTO addressDTO : addressDTOList) {
             if (addressDTO.getId() == 0)
-                throw new Exception("Không có ID của địa chỉ!");
+                throw new AddressNotFoundException("Không có ID của địa chỉ!");
             if (!checkAddressWithUser(addressDTO.getId(), user.getUsername()))
-                throw new Exception("Người dùng hiện tại không có ID địa chỉ này!");
+                throw new AddressNotFoundException("Người dùng hiện tại không có ID địa chỉ này!");
             Address address = addressMapper.toEntity(addressDTO);
             address.setUser(user);
             addressList.add(address);

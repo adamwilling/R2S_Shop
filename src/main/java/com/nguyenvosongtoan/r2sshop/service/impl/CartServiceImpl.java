@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nguyenvosongtoan.r2sshop.dto.CartDTO;
 import com.nguyenvosongtoan.r2sshop.dto.UserDTO;
 import com.nguyenvosongtoan.r2sshop.entity.Cart;
+import com.nguyenvosongtoan.r2sshop.exception.CartNotFoundException;
+import com.nguyenvosongtoan.r2sshop.exception.UserNotFoundException;
 import com.nguyenvosongtoan.r2sshop.mapper.CartMapper;
 import com.nguyenvosongtoan.r2sshop.repository.CartRepository;
 import com.nguyenvosongtoan.r2sshop.service.CartService;
@@ -37,7 +39,7 @@ public class CartServiceImpl implements CartService {
      */
     @Transactional
     @Override
-    public CartDTO updateCartStatus(long cartId, String status) throws Exception {
+    public CartDTO updateCartStatus(long cartId, String status) throws CartNotFoundException {
         CartDTO cartDTO = findById(cartId);
         cartDTO.setStatus(status);
         return cartMapper.toDTO(cartRepository.save(cartMapper.toEntity(cartDTO)));
@@ -63,7 +65,7 @@ public class CartServiceImpl implements CartService {
      */
     @Transactional(readOnly = true)
     @Override
-    public List<CartDTO> getAllCartsFromLoginUser() throws Exception {
+    public List<CartDTO> getAllCartsFromLoginUser() throws UserNotFoundException {
         // Lấy thông tin người dùng đang đăng nhập từ UserService
         UserDTO userDTO = userService.getCurrentUser();
 
@@ -83,7 +85,7 @@ public class CartServiceImpl implements CartService {
      */
     @Transactional(readOnly = true)
     @Override
-    public List<CartDTO> findByUserIdAndStatus(String status) throws Exception {
+    public List<CartDTO> findByUserIdAndStatus(String status) throws UserNotFoundException {
         // Lấy thông tin người dùng đang đăng nhập từ UserService
         UserDTO userDTO = userService.getCurrentUser();
 
@@ -103,7 +105,7 @@ public class CartServiceImpl implements CartService {
      */
     @Transactional(readOnly = true)
     @Override
-    public CartDTO findById(long cartId) throws Exception {
-        return cartMapper.toDTO(cartRepository.findById(cartId).orElseThrow(() -> new Exception("Giỏ hàng này không tồn tại!")));
+    public CartDTO findById(long cartId) throws CartNotFoundException {
+        return cartMapper.toDTO(cartRepository.findById(cartId).orElseThrow(() -> new CartNotFoundException("Giỏ hàng này không tồn tại!")));
     }
 }

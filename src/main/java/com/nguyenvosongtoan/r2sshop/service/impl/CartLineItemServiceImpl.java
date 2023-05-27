@@ -9,6 +9,7 @@ import com.nguyenvosongtoan.r2sshop.dto.UserDTO;
 import com.nguyenvosongtoan.r2sshop.entity.Cart;
 import com.nguyenvosongtoan.r2sshop.entity.CartLineItem;
 import com.nguyenvosongtoan.r2sshop.entity.Product;
+import com.nguyenvosongtoan.r2sshop.exception.CartLineItemNotFoundException;
 import com.nguyenvosongtoan.r2sshop.mapper.CartLineItemMapper;
 import com.nguyenvosongtoan.r2sshop.mapper.CartMapper;
 import com.nguyenvosongtoan.r2sshop.mapper.UserMapper;
@@ -98,8 +99,8 @@ public class CartLineItemServiceImpl implements CartLineItemService {
      */
     @Transactional
     @Override
-    public CartLineItemDTO updateProductInCart(CartLineItemDTO cartLineItemDTO) throws Exception {
-        CartLineItem cartLineItem = cartLineItemRepository.findById(cartLineItemDTO.getId()).orElseThrow(() -> new Exception("Vui lòng kiểm tra lại thông tin sản phẩm trong giỏ hàng!"));
+    public CartLineItemDTO updateProductInCart(CartLineItemDTO cartLineItemDTO) throws CartLineItemNotFoundException {
+        CartLineItem cartLineItem = cartLineItemRepository.findById(cartLineItemDTO.getId()).orElseThrow(() -> new CartLineItemNotFoundException("Vui lòng kiểm tra lại thông tin sản phẩm trong giỏ hàng!"));
         cartLineItem.setAmount(cartLineItemDTO.getAmount());
         cartLineItem.setPrice(cartLineItemDTO.getPrice());
         return cartLineItemMapper.toDTO(cartLineItemRepository.save(cartLineItem));
@@ -131,8 +132,8 @@ public class CartLineItemServiceImpl implements CartLineItemService {
      */
     @Transactional
     @Override
-    public CartLineItemDTO delProductIntoCart(long id) throws Exception {
-        CartLineItem cartLineItem = cartLineItemRepository.findById(id).orElseThrow(() -> new Exception("Vui lòng kiểm tra lại thông tin sản phẩm trong giỏ hàng!"));
+    public CartLineItemDTO delProductIntoCart(long id) throws CartLineItemNotFoundException {
+        CartLineItem cartLineItem = cartLineItemRepository.findById(id).orElseThrow(() -> new CartLineItemNotFoundException("Vui lòng kiểm tra lại thông tin sản phẩm trong giỏ hàng!"));
         cartLineItem.setDeleted(true);
         return cartLineItemMapper.toDTO(cartLineItemRepository.save(cartLineItem));
     }

@@ -1,11 +1,13 @@
 package com.nguyenvosongtoan.r2sshop.service.impl;
 
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nguyenvosongtoan.r2sshop.dto.*;
 import com.nguyenvosongtoan.r2sshop.entity.Address;
 import com.nguyenvosongtoan.r2sshop.entity.Order;
+import com.nguyenvosongtoan.r2sshop.exception.OrderNotFoundException;
 import com.nguyenvosongtoan.r2sshop.mapper.OrderMapper;
 import com.nguyenvosongtoan.r2sshop.repository.OrderRepository;
 import com.nguyenvosongtoan.r2sshop.service.*;
@@ -47,9 +49,9 @@ public class OrderServiceImpl implements OrderService {
      */
     @Transactional(readOnly = true)
     @Override
-    public OrderDTO findById(long id) throws Exception {
+    public OrderDTO findById(long id) throws OrderNotFoundException {
         return orderMapper.toDTO(orderRepository.findById(id)
-                .orElseThrow(() -> new Exception("Đơn hàng này không tồn tại!")));
+                .orElseThrow(() -> new OrderNotFoundException("Đơn hàng này không tồn tại!")));
     }
 
     /**

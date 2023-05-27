@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nguyenvosongtoan.r2sshop.dto.CategoryDTO;
 import com.nguyenvosongtoan.r2sshop.entity.Category;
+import com.nguyenvosongtoan.r2sshop.exception.CategoryNotFoundException;
 import com.nguyenvosongtoan.r2sshop.mapper.CategoryMapper;
 import com.nguyenvosongtoan.r2sshop.repository.CategoryRepository;
 import com.nguyenvosongtoan.r2sshop.service.CategoryService;
@@ -60,8 +61,8 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Transactional(readOnly = true)
     @Override
-    public CategoryDTO findById(long id) throws Exception {
+    public CategoryDTO findById(long id) throws CategoryNotFoundException {
         return categoryMapper.toDTO(categoryRepository.findById(id)
-                .orElseThrow(() -> new Exception("Danh mục này không tồn tại!")));
+                .orElseThrow(() -> new CategoryNotFoundException("Danh mục này không tồn tại!")));
     }
 }

@@ -12,6 +12,7 @@ import com.nguyenvosongtoan.r2sshop.entity.Address;
 import com.nguyenvosongtoan.r2sshop.entity.Cart;
 import com.nguyenvosongtoan.r2sshop.entity.Role;
 import com.nguyenvosongtoan.r2sshop.entity.User;
+import com.nguyenvosongtoan.r2sshop.exception.UserNotFoundException;
 import com.nguyenvosongtoan.r2sshop.mapper.AddressMapper;
 import com.nguyenvosongtoan.r2sshop.mapper.RoleMapper;
 import com.nguyenvosongtoan.r2sshop.mapper.UserMapper;
@@ -60,9 +61,9 @@ public class UserServiceImpl implements UserService {
      */
     @Transactional(readOnly = true)
     @Override
-    public UserDTO getCurrentUser() throws Exception {
+    public UserDTO getCurrentUser() throws UserNotFoundException {
         String username = getUsernameOfCurrentLoginUser();
-        return userMapper.toUserDTO(userRepository.findByUsername(username).orElseThrow(() -> new Exception("Người dùng không tồn tại")));
+        return userMapper.toUserDTO(userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException("Người dùng không tồn tại")));
     }
 
     /**
@@ -74,15 +75,15 @@ public class UserServiceImpl implements UserService {
      */
     @Transactional
     @Override
-    public UserDTO updateCurrentUser(CreateUserDTO createUserDTO) throws Exception {
+    public UserDTO updateCurrentUser(CreateUserDTO createUserDTO) throws UserNotFoundException {
         String username = getUsernameOfCurrentLoginUser();
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new Exception("Người dùng không tồn tại"));
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException("Người dùng không tồn tại"));
         user.setPassword(bCryptPasswordEncoder.encode(createUserDTO.getPassword()));
         Optional<Role> role = roleRepository.findById(createUserDTO.getRoleDTO().getId());
         if (role.isPresent()) {
             createUserDTO.setRoleDTO(roleMapper.toDTO(role.get()));
         } else {
-            throw new Exception("Không tìm thấy vai trò!");
+            throw new UserNotFoundException("Không tìm thấy vai trò!");
         }
         user.setRole(role.get());
         user.setStatus(createUserDTO.isStatus());
@@ -133,10 +134,10 @@ public class UserServiceImpl implements UserService {
      * @throws Exception Nếu không tìm thấy tên người dùng
      */
     @Override
-    public String getUsernameOfCurrentLoginUser() throws Exception {
+    public String getUsernameOfCurrentLoginUser() throws UserNotFoundException {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         if (username.equals("anonymousUser")) {
-            throw new Exception("Vui lòng đăng nhập!");
+            throw new UserNotFoundException("Vui lòng đăng nhập!");
         }
         return username;
     }

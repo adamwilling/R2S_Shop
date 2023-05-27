@@ -4,6 +4,7 @@ package com.nguyenvosongtoan.r2sshop.service;
 import java.util.List;
 
 import com.nguyenvosongtoan.r2sshop.dto.CategoryDTO;
+import com.nguyenvosongtoan.r2sshop.exception.CategoryNotFoundException;
 
 public interface CategoryService {
 
@@ -11,6 +12,6 @@ public interface CategoryService {
 
     CategoryDTO create(CategoryDTO categoryDTO);
 
-    CategoryDTO findById(long id) throws Exception;
+    CategoryDTO findById(long id) throws CategoryNotFoundException;
 
 }

@@ -11,6 +11,8 @@ import com.nguyenvosongtoan.r2sshop.dto.ProductCreateDTO;
 import com.nguyenvosongtoan.r2sshop.dto.UpdateProductDTO;
 import com.nguyenvosongtoan.r2sshop.entity.Product;
 import com.nguyenvosongtoan.r2sshop.entity.VariantProduct;
+import com.nguyenvosongtoan.r2sshop.exception.CategoryNotFoundException;
+import com.nguyenvosongtoan.r2sshop.exception.ProductNotFoundException;
 import com.nguyenvosongtoan.r2sshop.mapper.ProductMapper;
 import com.nguyenvosongtoan.r2sshop.mapper.VariantProductMapper;
 import com.nguyenvosongtoan.r2sshop.repository.ProductRepository;
@@ -52,11 +54,11 @@ public class ProductServiceImpl implements ProductService {
      */
     @Transactional(readOnly = true)
     @Override
-    public PaginationDTO findAllProductByCategoryId(long categoryId, int no, int limit) throws Exception {
+    public PaginationDTO findAllProductByCategoryId(long categoryId, int no, int limit) throws ProductNotFoundException {
         Page<ProductCreateDTO> productCreateDTOPages = productRepository.findAllByCategoryIdOrderByPriceDesc(categoryId, PageRequest.of(no, limit))
                 .map(product -> productMapper.toCreateDTO(product));
         if (productCreateDTOPages.getTotalElements() == 0)
-            throw new Exception("Không tìm thấy sản phẩm!");
+            throw new ProductNotFoundException("Không tìm thấy sản phẩm!");
         return new PaginationDTO(productCreateDTOPages.getContent(), productCreateDTOPages.isFirst(), productCreateDTOPages.isLast(), productCreateDTOPages.getTotalPages(),
                 productCreateDTOPages.getTotalElements(), productCreateDTOPages.getSize(), productCreateDTOPages.getNumber());
     }
@@ -70,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
      */
     @Transactional
     @Override
-    public ProductCreateDTO create(ProductCreateDTO productCreateDTO) throws Exception {
+    public ProductCreateDTO create(ProductCreateDTO productCreateDTO) throws CategoryNotFoundException {
         CategoryDTO categoryDTO = categoryService.findById(productCreateDTO.getCategoryDTO().getId());
         productCreateDTO.setCategoryDTO(categoryDTO);
         Product product = productMapper.toEntity(productCreateDTO);
@@ -93,8 +95,8 @@ public class ProductServiceImpl implements ProductService {
      */
     @Transactional(readOnly = true)
     @Override
-    public ProductCreateDTO findById(long id) throws Exception {
-        return productMapper.toCreateDTO(productRepository.findById(id).orElseThrow(() -> new Exception("Sản phẩm không tồn tại!")));
+    public ProductCreateDTO findById(long id) throws ProductNotFoundException {
+        return productMapper.toCreateDTO(productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Sản phẩm không tồn tại!")));
     }
 
     /**
@@ -106,7 +108,7 @@ public class ProductServiceImpl implements ProductService {
      */
     @Transactional
     @Override
-    public UpdateProductDTO update(UpdateProductDTO updateProductDTO) throws Exception {
+    public UpdateProductDTO update(UpdateProductDTO updateProductDTO) throws ProductNotFoundException {
         Product existedProduct = productMapper.toEntity(findById(updateProductDTO.getId()));
         CategoryDTO categoryDTO = categoryService.findById(updateProductDTO.getCategoryDTO().getId());
         updateProductDTO.setCategoryDTO(categoryDTO);

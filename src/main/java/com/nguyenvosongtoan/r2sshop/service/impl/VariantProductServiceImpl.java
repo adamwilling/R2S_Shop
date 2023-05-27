@@ -7,6 +7,8 @@ import com.nguyenvosongtoan.r2sshop.dto.ProductCreateDTO;
 import com.nguyenvosongtoan.r2sshop.dto.VariantProCreateDTO;
 import com.nguyenvosongtoan.r2sshop.dto.VariantProductDTO;
 import com.nguyenvosongtoan.r2sshop.entity.VariantProduct;
+import com.nguyenvosongtoan.r2sshop.exception.ProductNotFoundException;
+import com.nguyenvosongtoan.r2sshop.exception.VariantProductNotFoundException;
 import com.nguyenvosongtoan.r2sshop.mapper.ProductMapper;
 import com.nguyenvosongtoan.r2sshop.mapper.VariantProductMapper;
 import com.nguyenvosongtoan.r2sshop.repository.VariantProductRepository;
@@ -59,7 +61,7 @@ public class VariantProductServiceImpl implements VariantProductService {
      */
     @Transactional
     @Override
-    public List<VariantProductDTO> create(long productId, List<VariantProCreateDTO> variantProCreateDTO) throws Exception {
+    public List<VariantProductDTO> create(long productId, List<VariantProCreateDTO> variantProCreateDTO) throws ProductNotFoundException {
         ProductCreateDTO product = productService.findById(productId);
         List<VariantProduct> variantProducts = variantProCreateDTO.stream()
                 .map(variantProCreateDTO1 -> variantProductMapper.toEntity(variantProCreateDTO1))
@@ -79,7 +81,7 @@ public class VariantProductServiceImpl implements VariantProductService {
      */
     @Transactional
     @Override
-    public List<VariantProductDTO> update(List<VariantProductDTO> variantProductDTOS) throws Exception {
+    public List<VariantProductDTO> update(List<VariantProductDTO> variantProductDTOS) throws VariantProductNotFoundException {
         List<VariantProductDTO> newVariantProductDTOS = new ArrayList<>();
         for (VariantProductDTO variantProductDTO : variantProductDTOS) {
             VariantProduct existedvariantProduct = findById(variantProductDTO.getId());
@@ -98,8 +100,8 @@ public class VariantProductServiceImpl implements VariantProductService {
      * @throws Exception Nếu không tìm thấy sản phẩm biến thể
      */
     @Override
-    public VariantProduct findById(long id) throws Exception {
+    public VariantProduct findById(long id) throws VariantProductNotFoundException {
         return variantProductRepository.findById(id)
-                .orElseThrow(() -> new Exception("Kiểm tra lại ID sản phẩm biến thể!"));
+                .orElseThrow(() -> new VariantProductNotFoundException("Kiểm tra lại ID sản phẩm biến thể!"));
     }
 }
