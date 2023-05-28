@@ -22,7 +22,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping(ApiUrlConstant.CATEGORIES)
+    @GetMapping("/categories")
     public ResponseEntity<?> getAllByCategoryId(
             @RequestParam long categoryId,
             @RequestParam(defaultValue = PaginationConstant.DEFAULT_PAGE_NUMBER) int no,
