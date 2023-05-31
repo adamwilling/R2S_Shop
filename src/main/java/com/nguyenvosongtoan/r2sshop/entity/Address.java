@@ -29,6 +29,8 @@ public class Address {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @OneToMany(mappedBy = "address")
     private List<Order> orders;
 }

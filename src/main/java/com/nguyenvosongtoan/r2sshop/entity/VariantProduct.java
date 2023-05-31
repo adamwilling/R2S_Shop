@@ -1,5 +1,7 @@
 package com.nguyenvosongtoan.r2sshop.entity;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,9 +23,20 @@ public class VariantProduct {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
-    @Column(name = "color", length = 20)
+    @Column(name = "material", length = 32)
+    private String material;
+
+    @Column(name = "color", length = 32)
     private String color;
 
     @Column(name = "size", length = 5)
     private String size;
+
+    @Column(name = "price")
+    private float price;
+
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @OneToMany(mappedBy = "variantProduct", cascade = CascadeType.ALL)
+    private List<CartLineItem> cartLineItems;
 }

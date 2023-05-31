@@ -6,5 +6,5 @@ import lombok.Data;
 public class AddCartLineItemDTO {
     private float price;
     private int amount;
-    private ProductDTO productDTO;
+    private VariantProductDTO variantProductDTO;
 }

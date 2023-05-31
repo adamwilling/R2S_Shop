@@ -37,9 +37,4 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<VariantProduct> variantProducts;
 
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<CartLineItem> cartLineItems;
-
 }

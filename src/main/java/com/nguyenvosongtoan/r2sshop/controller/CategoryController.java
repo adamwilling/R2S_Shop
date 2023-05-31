@@ -19,7 +19,6 @@ public class CategoryController {
 		this.categoryService = categoryService;
 	}
 
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     @GetMapping
     public ResponseEntity<?> findAll(){
         return ResponseEntity.ok(categoryService.findAll());

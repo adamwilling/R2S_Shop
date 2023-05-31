@@ -31,7 +31,7 @@ public class AddressController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     @PostMapping
     public ResponseEntity<?> create(@RequestBody List<AddressDTO> addressDTOList){
         try {
@@ -41,7 +41,7 @@ public class AddressController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     @PutMapping
     public ResponseEntity<?> update(@RequestBody List<AddressDTO> addressDTOList){
         try {
@@ -51,7 +51,7 @@ public class AddressController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     @DeleteMapping
     public ResponseEntity<?> delete(@RequestParam String listID){
         try {

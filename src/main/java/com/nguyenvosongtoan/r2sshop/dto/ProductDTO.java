@@ -8,5 +8,4 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class ProductDTO extends UpdateProductDTO{
-    List<CartLineItemDTO> cartLineItemDTOs;
 }

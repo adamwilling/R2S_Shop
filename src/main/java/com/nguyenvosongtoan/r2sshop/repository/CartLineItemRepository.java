@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CartLineItemRepository extends JpaRepository<CartLineItem,Long> {
-    @Query("SELECT c FROM CartLineItem c WHERE cart.id = :cartId")
-    List<CartLineItem> findAllByCartId(@Param("cartId") long cartId);
+public interface CartLineItemRepository extends JpaRepository<CartLineItem, Long> {
+	@Query("SELECT c FROM CartLineItem c WHERE cart.id = :cartId")
+	List<CartLineItem> findAllByCartId(@Param("cartId") long cartId);
 
-    Optional<CartLineItem> findByCartIdAndProductId(long cartId, long productId);
+	Optional<CartLineItem> findByCartIdAndVariantProductId(long cartId, long variantProductId);
 }

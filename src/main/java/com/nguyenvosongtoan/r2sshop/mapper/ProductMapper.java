@@ -28,12 +28,10 @@ public interface ProductMapper {
 
     @Mapping(source = "categoryDTO", target = "category")
     @Mapping(source = "variantProductsDTOs", target = "variantProducts")
-    @Mapping(source = "cartLineItemDTOs", target = "cartLineItems")
     Product toEntity(ProductDTO productDTO);
 
     @Mapping(source = "category", target = "categoryDTO")
     @Mapping(source = "variantProducts", target = "variantProductsDTOs")
-    @Mapping(source = "cartLineItems", target = "cartLineItemDTOs")
     ProductDTO toDTO(Product product);
 
 

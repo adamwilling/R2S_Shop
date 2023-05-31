@@ -33,6 +33,6 @@ public class CartLineItem {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "variant_product_id")
+    private VariantProduct variantProduct;
 }

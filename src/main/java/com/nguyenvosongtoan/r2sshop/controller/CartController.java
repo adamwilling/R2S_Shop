@@ -19,7 +19,6 @@ public class CartController {
 		this.cartService = cartService;
 	}
 
-	@PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping
     public ResponseEntity<?> getAllCartsFromLoginUser() {
         try {

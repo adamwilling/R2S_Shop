@@ -10,15 +10,14 @@ import com.nguyenvosongtoan.r2sshop.entity.CartLineItem;
 @Mapper(componentModel = "spring")
 public interface CartLineItemMapper {
 
-    @Mapping(source = "productDTO", target = "product")
     @Mapping(source = "cartDTO", target = "cart")
     CartLineItem toEntity(CartLineItemDTO cartLineItemDTO);
-    @Mapping(source = "product", target = "productDTO")
+    @Mapping(source = "variantProduct", target = "variantProductDTO")
     @Mapping(source = "cart", target = "cartDTO")
     CartLineItemDTO toDTO(CartLineItem CartLineItem);
 
-    @Mapping(source = "productDTO", target = "product")
+    @Mapping(source = "variantProductDTO", target = "variantProduct")
     CartLineItem toEntity(AddCartLineItemDTO addCartLineItemDTO);
-    @Mapping(source = "product", target = "productDTO")
+    @Mapping(source = "variantProduct", target = "variantProductDTO")
     AddCartLineItemDTO toAddDTO(CartLineItem CartLineItem);
 }

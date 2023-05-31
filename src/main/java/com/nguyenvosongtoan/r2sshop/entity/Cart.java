@@ -32,7 +32,7 @@ public class Cart {
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<CartLineItem> cartLineItems;
 
     @EqualsAndHashCode.Exclude
