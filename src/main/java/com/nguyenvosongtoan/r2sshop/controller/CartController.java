@@ -28,7 +28,7 @@ public class CartController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable long id) {
         try {
@@ -38,7 +38,7 @@ public class CartController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/user")
     public ResponseEntity<?> findByUserIdAndStatus(
             @RequestParam String status
