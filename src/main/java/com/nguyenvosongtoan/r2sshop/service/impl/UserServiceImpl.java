@@ -79,6 +79,10 @@ public class UserServiceImpl implements UserService {
         String username = getUsernameOfCurrentLoginUser();
         User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException("Người dùng không tồn tại"));
         user.setPassword(bCryptPasswordEncoder.encode(createUserDTO.getPassword()));
+        user.setGender(createUserDTO.getGender());
+        user.setEmail(createUserDTO.getEmail());
+        user.setPhoneNumber(createUserDTO.getPhoneNumber());
+        user.setDateOfBirth(createUserDTO.getDateOfBirth());
         Optional<Role> role = roleRepository.findById(createUserDTO.getRoleDTO().getId());
         if (role.isPresent()) {
             createUserDTO.setRoleDTO(roleMapper.toDTO(role.get()));

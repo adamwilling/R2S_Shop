@@ -20,7 +20,7 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable long id) {
         try {
@@ -30,7 +30,7 @@ public class OrderController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("isAuthenticated()")
     @PostMapping
     public ResponseEntity<?> order(@RequestBody OrderACartDTO orderACartDTO) {
         try {

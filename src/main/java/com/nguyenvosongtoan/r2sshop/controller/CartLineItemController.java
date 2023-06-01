@@ -21,7 +21,7 @@ public class CartLineItemController {
 		this.cartLineItemService = cartLineItemService;
 	}
 
-	@PreAuthorize("hasAuthority('ROLE_USER')")
+	@PreAuthorize("isAuthenticated()")
     @GetMapping("/cart/{id}")
     public ResponseEntity<?> getAllCartsFromLoginUser(@PathVariable long id) {
         try {
@@ -31,7 +31,7 @@ public class CartLineItemController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("isAuthenticated()")
     @PostMapping
     public ResponseEntity<?> addProductIntoCart(@RequestBody AddCartLineItemDTO addCartLineItemDTO) {
         try {
@@ -41,7 +41,7 @@ public class CartLineItemController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("isAuthenticated()")
     @PutMapping
     public ResponseEntity<?> updateProductInCart(@RequestBody CartLineItemDTO addCartLineItemDTO) {
         try {
@@ -51,7 +51,7 @@ public class CartLineItemController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delProductIntoCart(@PathVariable long id) {
         try {

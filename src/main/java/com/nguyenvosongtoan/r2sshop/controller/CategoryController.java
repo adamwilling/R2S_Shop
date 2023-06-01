@@ -1,5 +1,6 @@
 package com.nguyenvosongtoan.r2sshop.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +25,19 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.findAll());
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public ResponseEntity<?> create(@RequestBody CategoryDTO categoryDTO){
         return ResponseEntity.ok(categoryService.create(categoryDTO));
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping
+    public ResponseEntity<?> update(@RequestBody CategoryDTO categoryDTO){
+        try {
+            return ResponseEntity.ok(categoryService.update(categoryDTO));
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

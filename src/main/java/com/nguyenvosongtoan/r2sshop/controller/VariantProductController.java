@@ -31,7 +31,7 @@ public class VariantProductController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/product/{id}")
     public ResponseEntity<?> create(@PathVariable long id, @RequestBody List<VariantProCreateDTO> variantProCreateDTOs) {
         try {
@@ -41,7 +41,7 @@ public class VariantProductController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping
     public ResponseEntity<?> update(@RequestBody List<VariantProductDTO> variantProductDTOS) {
         try {

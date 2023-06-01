@@ -44,7 +44,7 @@ public class ProductController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ProductCreateDTO productCreateDTO){
         try {
@@ -54,7 +54,7 @@ public class ProductController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping
     public ResponseEntity<?> update(@RequestBody UpdateProductDTO updateProductDTO){
         try {
@@ -63,4 +63,14 @@ public class ProductController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+//    @PreAuthorize("hasAuthority('ADMIN')")
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<?> delete(@PathVariable long id){
+//        try {
+//            return ResponseEntity.ok(productService.delete(id));
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+//        }
+//    }
 }

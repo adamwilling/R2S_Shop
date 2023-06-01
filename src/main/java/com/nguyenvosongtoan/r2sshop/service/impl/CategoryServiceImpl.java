@@ -39,6 +39,20 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
+     * Tìm kiếm danh mục theo ID.
+     *
+     * @param id ID của danh mục cần tìm kiếm
+     * @return Đối tượng CategoryDTO tương ứng với ID
+     * @throws Exception Nếu không tìm thấy danh mục
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public CategoryDTO findById(long id) throws CategoryNotFoundException {
+        return categoryMapper.toDTO(categoryRepository.findById(id)
+                .orElseThrow(() -> new CategoryNotFoundException("Danh mục này không tồn tại!")));
+    }
+
+    /**
      * Tạo một danh mục mới.
      *
      * @param categoryDTO Đối tượng CategoryDTO
@@ -53,16 +67,16 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
-     * Tìm kiếm danh mục theo ID.
+     * Cập nhật danh mục.
      *
-     * @param id ID của danh mục cần tìm kiếm
-     * @return Đối tượng CategoryDTO tương ứng với ID
-     * @throws Exception Nếu không tìm thấy danh mục
+     * @param categoryDTO Đối tượng CategoryDTO có chứa id và thông tin của danh mục cần được cập nhật
+     * @return Đối tượng CategoryDTO sau khi đã cập nhật
      */
-    @Transactional(readOnly = true)
+    @Transactional
     @Override
-    public CategoryDTO findById(long id) throws CategoryNotFoundException {
-        return categoryMapper.toDTO(categoryRepository.findById(id)
-                .orElseThrow(() -> new CategoryNotFoundException("Danh mục này không tồn tại!")));
+    public CategoryDTO update(CategoryDTO categoryDTO) throws CategoryNotFoundException {
+    	Category category = categoryMapper.toEntity(findById(categoryDTO.getId()));
+    	category.setName(categoryDTO.getName());
+        return categoryMapper.toDTO(categoryRepository.save(category));
     }
 }

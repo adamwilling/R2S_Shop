@@ -85,8 +85,10 @@ public class VariantProductServiceImpl implements VariantProductService {
         List<VariantProductDTO> newVariantProductDTOS = new ArrayList<>();
         for (VariantProductDTO variantProductDTO : variantProductDTOS) {
             VariantProduct existedvariantProduct = findById(variantProductDTO.getId());
+            existedvariantProduct.setMaterial(variantProductDTO.getMaterial());
             existedvariantProduct.setColor(variantProductDTO.getColor());
             existedvariantProduct.setSize(variantProductDTO.getSize());
+            existedvariantProduct.setPrice(variantProductDTO.getPrice());
             newVariantProductDTOS.add(variantProductMapper.toDTO(variantProductRepository.save(existedvariantProduct)));
         }
         return newVariantProductDTOS;
