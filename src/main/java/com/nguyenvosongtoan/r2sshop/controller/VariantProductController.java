@@ -12,7 +12,7 @@ import com.nguyenvosongtoan.r2sshop.service.VariantProductService;
 
 import java.util.List;
 
-@RequestMapping(ApiUrlConstant.VARIANTPRODUCTS)
+@RequestMapping(ApiUrlConstant.VARIANT_PRODUCTS)
 @RestController
 public class VariantProductController {
     private final VariantProductService variantProductService;

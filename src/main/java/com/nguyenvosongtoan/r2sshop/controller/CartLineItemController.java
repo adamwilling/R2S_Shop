@@ -10,7 +10,7 @@ import com.nguyenvosongtoan.r2sshop.dto.AddCartLineItemDTO;
 import com.nguyenvosongtoan.r2sshop.dto.CartLineItemDTO;
 import com.nguyenvosongtoan.r2sshop.service.CartLineItemService;
 
-@RequestMapping(ApiUrlConstant.CARTLINEITEMS)
+@RequestMapping(ApiUrlConstant.CART_LINE_ITEMS)
 @RestController
 public class CartLineItemController {
 	
